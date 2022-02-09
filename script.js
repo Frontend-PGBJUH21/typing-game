@@ -54,6 +54,17 @@ let score = 0;
 // Intialize time
 let time = 10;
 
+// difficulty
+let difficulty =
+  localStorage.getItem("difficulty") !== null
+    ? localStorage.getItem("difficulty")
+    : "medium";
+
+difficultySelect.value =
+  localStorage.getItem("difficulty") !== null
+    ? localStorage.getItem("difficulty")
+    : "medium";
+
 // 5. Focus på input vid start
 text.focus();
 
@@ -113,8 +124,24 @@ text.addEventListener("input", (event) => {
 
     // clear
     event.target.value = "";
+
+    if (difficulty === "hard") {
+      time += 2;
+    } else if (difficulty === "medium") {
+      time += 3;
+    } else {
+      time += 5;
+    }
+
+    updateTime();
   }
 });
 
 // 9. Setting button
 settingsBtn.addEventListener("click", () => settings.classList.toggle("hide"));
+
+settingsForm.addEventListener("change", (event) => {
+  difficulty = event.target.value;
+
+  localStorage.setItem("difficulty", difficulty);
+});
